@@ -20,3 +20,19 @@ Works on an sorted array and uses the principle of Binary Search Tree.
 - Worst Case : O(log n) 
 
 **Space Complexity :** O(1) no extra space required
+
+## [Breadth First Search (BFS)](../searching_traversing/BFS.js)
+Traversing is similar to searching as we have to visit each node. Traversing is used in cases like printing each node element, modifying each node etc.
+
+BFS travels from left to right, level by level starting from the root node.
+BFS uses *additional memory* as we need to keep track of the child nodes.
+
+Good to find *shortest path* because we traverse closer nodes first.
+
+**Time Complexity :**
+- O(n)
+
+## [Depth First Search (DFS)](../searching_traversing/DFS.js)
+DFS follows one branch of the tree to travel last leaf node of the tree. Then it moves to the next ancesstor until it does not have any unexplored child.
+
+Good to find *if a path exists* between two nodes.

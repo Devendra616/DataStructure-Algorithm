@@ -21,7 +21,7 @@ Works on an sorted array and uses the principle of Binary Search Tree.
 
 **Space Complexity :** O(1) no extra space required
 
-## [Breadth First Search (BFS)](../searching_traversing/BFS.js)
+## [Breadth First Search (BFS)](../searching_traversing/traverse-BFS.js)
 Traversing is similar to searching as we have to visit each node. Traversing is used in cases like printing each node element, modifying each node etc.
 
 BFS travels from left to right, level by level starting from the root node. BFS is also called  *Level Order Traversal*.
@@ -38,7 +38,7 @@ Extra space required for level order traversal is O(w), where w is the maximum w
 
 *Extra space for BFS is likely to be more when the tree is more balanced.*
 
-## [Depth First Search (DFS)](../searching_traversing/DFS.js)
+## [Depth First Search (DFS)](../searching_traversing/traverse-DFS.js)
 DFS follows one branch of the tree to travel last leaf node of the tree. Then it moves to the next ancesstor until it does not have any unexplored child. It uses stack data structure for the recursive calls. 
 
 Good to find *if a path exists* between two nodes.
@@ -77,7 +77,7 @@ Stack stores all the ancesstors of the node. Extra space for DFS is when the tre
 
 ## [Dijkstra's Algorithm](../searching_traversing/Dijkastras.js)
 
-Dijkastra's algorithm finds the shortest path tree from a single source node. 
+Dijkastra's algorithm finds the shortest path tree from a single source node. It is a **Greedy Algorithm**
 
 - used to find the shortest path between two nodes in a graph.
 - used to find the shortest path from one node to every other node within the same graph, provided the nodes are reachable from the starting node. 
@@ -123,5 +123,52 @@ By calculating and continually updating the shortest time to reach each node on 
 
 We need to maintain vertices to be visited in order of cost. For this we use *Priority Queue*. When a lower cost route is encountered we add it to the front.
 
+### Enhancements
+- If you only need the path between two specific nodes, you can stop the algorithm as soon as you mark your second node as visited.
+- Sometimes, there are several minimum paths between two nodes (different paths with the same weights). If you wish, you can keep track of all those variants. When there is a tie between the calculated value and the current distance, save both the old current path and the new one. This complicates the tracking, but it may be useful to you.
+- If you finish the algorithm because there are not univisted nodes left but there are nodes which minimum distance is still infinity, those nodes don't have any valid path to the original node.
+### Resources
+* [Medium Article - A Walkthrough of Dijkstra’s Algorithm](https://medium.com/@adriennetjohnson/a-walkthrough-of-dijkstras-algorithm-in-javascript-e94b74192026)
+* [Codingame- Shortest Paths with Dijkastra's Algorithm](https://www.codingame.com/playgrounds/1608/shortest-paths-with-dijkstras-algorithm/ending)
 
+**Time Complexity :**
+- O(|V|log|V|) 
 
+## Bellman Ford Algorithm
+
+Dijkstra doesn’t work for Graphs with negative weight edges.
+
+* Used to calculate shortest path from single source vertex to all the other vertices.
+* Bellman-Ford can work for graphs with negative weights.
+* Bellman-Ford is also simpler than Dijkstra and suites well for distributed systems. 
+* No destination vertex needs to be supplied, however, because Bellman-Ford calculates the shortest distance to all vertices in the graph from the source vertex.
+* If a graph contains a "*negative cycle*" (i.e. a cycle whose edges sum to a negative value) that is reachable from the source, then there is no shortest path. Any path that has a point on the negative cycle can be made cheaper by one more walk around the negative cycle. Bellman–Ford algorithm can easily detect any negative cycles in the graph.
+* Shortest path contains at most (|V|-1 ) edges, because the shortest path couldn't have a cycle.
+
+### Steps
+1. Initialization: This step initializes distances from source to all vertices as infinite and distance to source itself as 0. Create an array dist[] of size |V| with all values as infinite except dist[src] where src is source vertex.
+2. Relaxation: This step calculates shortest distances. 
+```
+Do following from 1 to |V|-1 where |V| is the number of vertices in given graph.
+   Do following for each edge u-v
+    If dist[v] > dist[u] + weight of edge uv, then update dist[v]
+      dist[v] = dist[u] + weight of edge uv
+```
+3. Reports if there is a negative weight cycle in graph. Step 2 guarantees shortest distances if graph doesn’t contain negative weight cycle. If we iterate through all edges one more time and get a shorter path for any vertex, then there is a negative weight cycle.
+```
+  Do following for each edge u-v
+    If dist[v] > dist[u] + weight of edge uv, then 
+     "Graph contains negative weight cycle"
+```
+
+**Time Complexity :**
+- O(|V|.|E|) Bellman-Ford makes ∣E∣ relaxations for every iteration, and there are |V∣−1 iterations. 
+
+**Applications:**
+- A version of Bellman-Ford is used in the distance-vector routing protocol. This protocol decides how to route packets of data on a network. 
+- Routing Information Protocol(RIP). It prevents loops by limiting the number of hops a packet can make on its way to the destination. 
+- Interior Rateway Routing Protocol (IGRP). This proprietary protocol is used to help machines exchange routing data within a system.
+
+### Resources
+* [Brilliant.org - Bellman-Ford Algorithm](https://brilliant.org/wiki/bellman-ford-algorithm/)
+* [Geeks For Geeks - Bellman-Ford Algorithm](https://www.geeksforgeeks.org/bellman-ford-algorithm-dp-23/)
